@@ -72,8 +72,8 @@ ticketing_contract.events.CheckedOut().on('data', function (event) {
     console.log('processing trip: ', trip);
 
     // get trip start and end date
-    const start = new Date(trip.startTimestamp.toNumber() * 1000);
-    const end = new Date(trip.endTimestamp.toNumber() * 1000);
+    const start = new Date(parseInt(trip.startTimestamp));
+    const end = new Date(parseInt(trip.endTimestamp));
     const passengerAddress = trip.passenger;
 
     console.log('START: ', start);
@@ -90,10 +90,10 @@ ticketing_contract.events.CheckedOut().on('data', function (event) {
     // send price to SC
     ticketing_contract.methods.setPrice(
         passengerAddress,
-        String(price * 100000000000000000),
+        price * 100000000000000000,
         trip.startTimestamp,
     ).send({
-        // 'from': account.address,
+        'from': account.address,
         'gas': 3000000,
     }).then((data) => {
         console.log('Setting price was a success: ', JSON.stringify(data));
