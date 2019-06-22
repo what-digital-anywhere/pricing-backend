@@ -4,6 +4,7 @@ const Web3 = require('web3');
 
 const transporterPrivateKey = process.env.PRIVATE_KEY;
 const transporterPricePerSecond = process.env.PRICE_PER_SECOND;
+const transporterPriceBaseFare = process.env.BASE_FARE || 0.003;
 
 if (!process.env.PRIVATE_KEY || !process.env.PRICE_PER_SECOND) {
     throw new Error("environment variables not set correctly");
@@ -72,25 +73,26 @@ ticketing_contract.events.CheckedOut().on('data', function (event) {
     console.log('processing trip: ', trip);
 
     // get trip start and end date
-    const start = new Date(parseInt(trip.startTimestamp));
-    const end = new Date(parseInt(trip.endTimestamp));
+    const start = new Date(parseInt(trip.startTimestamp) * 1000);
+    const end = new Date(parseInt(trip.endTimestamp) * 1000);
     const passengerAddress = trip.passenger;
 
     console.log('START: ', start);
     console.log('END: ', end);
 
     // calculate seconds
-    const seconds = +((end.getTime() - start.getTime()) / 1000).toFixed(2);
+    const seconds = (end.getTime() - start.getTime())/1000;
     console.log('Trip duration in seconds:', seconds);
 
     // calculate  price
-    const price = transporterPricePerSecond * seconds;
-    console.log('Trip price:', price);
+    let price = transporterPricePerSecond * seconds;
+    price = transporterPriceBaseFare + price;
+    console.log('Total Trip price:', price.toFixed(10));
 
     // send price to SC
     ticketing_contract.methods.setPrice(
         passengerAddress,
-        price * 100000000000000000,
+        web3js_ws.utils.toWei(price.toFixed(10), 'ether'),
         trip.startTimestamp,
     ).send({
         'from': account.address,
