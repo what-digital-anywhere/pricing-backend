@@ -7,4 +7,4 @@
 
 ## Notes
 
-- only works with `"web3": "^1.0.0-beta.37"` for now, see https://github.com/trufflesuite/ganache-core/issues/339
+- only works with `"web3": "1.0.0-beta.37"` for now, see https://github.com/trufflesuite/ganache-core/issues/339
