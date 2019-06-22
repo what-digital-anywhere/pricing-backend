@@ -79,8 +79,8 @@ ticketing_contract.events.CheckedOut().on('data', function (event) {
     console.log('START: ', start);
     console.log('END: ', end);
 
-    // calculate minutes
-    const seconds = Math.round(end.getTime() - start.getTime() / 1000) + 200;
+    // calculate seconds
+    const seconds = Math.round((end.getTime() - start.getTime()) / 1000);
     console.log('Trip duration in seconds:', seconds);
 
     // calculate  price
