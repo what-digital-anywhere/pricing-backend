@@ -1,4 +1,3 @@
-
 module.exports = {
     SC_TICKETNG_ABI: [
         {
@@ -126,17 +125,78 @@ module.exports = {
             "type": "event"
         },
         {
-            "constant": false,
+            "constant": true,
             "inputs": [
                 {
-                    "name": "transporterAddress",
+                    "name": "passengerAddress",
                     "type": "address"
                 }
             ],
-            "name": "checkIn",
-            "outputs": [],
+            "name": "getPassenger",
+            "outputs": [
+                {
+                    "components": [
+                        {
+                            "name": "isCheckedIn",
+                            "type": "bool"
+                        },
+                        {
+                            "name": "checkedInTspKey",
+                            "type": "address"
+                        },
+                        {
+                            "components": [
+                                {
+                                    "name": "startTimestamp",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "name": "endTimestamp",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "name": "isJourneyStart",
+                                    "type": "bool"
+                                },
+                                {
+                                    "name": "isJourneyEnd",
+                                    "type": "bool"
+                                },
+                                {
+                                    "name": "journeyId",
+                                    "type": "uint256"
+                                },
+                                {
+                                    "name": "transporter",
+                                    "type": "address"
+                                },
+                                {
+                                    "name": "passenger",
+                                    "type": "address"
+                                },
+                                {
+                                    "name": "isCheckedOut",
+                                    "type": "bool"
+                                },
+                                {
+                                    "name": "isPaid",
+                                    "type": "bool"
+                                },
+                                {
+                                    "name": "price",
+                                    "type": "uint256"
+                                }
+                            ],
+                            "name": "trips",
+                            "type": "tuple[]"
+                        }
+                    ],
+                    "name": "",
+                    "type": "tuple"
+                }
+            ],
             "payable": false,
-            "stateMutability": "nonpayable",
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -161,6 +221,18 @@ module.exports = {
                         },
                         {
                             "name": "endTimestamp",
+                            "type": "uint256"
+                        },
+                        {
+                            "name": "isJourneyStart",
+                            "type": "bool"
+                        },
+                        {
+                            "name": "isJourneyEnd",
+                            "type": "bool"
+                        },
+                        {
+                            "name": "journeyId",
                             "type": "uint256"
                         },
                         {
@@ -213,6 +285,18 @@ module.exports = {
                             "type": "uint256"
                         },
                         {
+                            "name": "isJourneyStart",
+                            "type": "bool"
+                        },
+                        {
+                            "name": "isJourneyEnd",
+                            "type": "bool"
+                        },
+                        {
+                            "name": "journeyId",
+                            "type": "uint256"
+                        },
+                        {
                             "name": "transporter",
                             "type": "address"
                         },
@@ -243,7 +327,30 @@ module.exports = {
         },
         {
             "constant": false,
-            "inputs": [],
+            "inputs": [
+                {
+                    "name": "transporterAddress",
+                    "type": "address"
+                },
+                {
+                    "name": "isJourneyStart",
+                    "type": "bool"
+                }
+            ],
+            "name": "checkIn",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "isJourneyEnd",
+                    "type": "bool"
+                }
+            ],
             "name": "checkOut",
             "outputs": [],
             "payable": false,
@@ -281,6 +388,29 @@ module.exports = {
                 }
             ],
             "name": "payForTrip",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "transporterAddress",
+                    "type": "address"
+                },
+                {
+                    "name": "percentage",
+                    "type": "uint256"
+                }
+            ],
+            "name": "sponsor",
             "outputs": [],
             "payable": true,
             "stateMutability": "payable",
